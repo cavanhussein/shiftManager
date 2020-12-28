@@ -1,15 +1,31 @@
 package com.when.i.work.shift.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
+@Document(collection = "shift")
 public class Shift {
     @Id
     private String id;
+    @NotEmpty(message = "startTime cannot be empty or null")
+    @JsonFormat(pattern="yyyy-MM-dd@HH:mm:ss")
     private Date startTime;
+    @NotEmpty(message = "endTime cannot be empty or null")
+    @JsonFormat(pattern="yyyy-MM-dd@HH:mm:ss")
     private Date endTime;
+    @NotEmpty(message = "userId cannot be empty or null")
     private String userId;
+
+    public Shift(String id, Date startTime, Date endTime, String userId) {
+        this.id = id;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.userId = userId;
+    }
 
     public String getId() {
         return id;
