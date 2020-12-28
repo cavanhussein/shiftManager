@@ -15,7 +15,12 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	implementation 'junit:junit:4.12'
+
+	compile group: 'org.hibernate', name: 'hibernate-validator', version: '6.1.0.Final'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testCompile group: 'org.mockito', name: 'mockito-core', version: '3.6.28'
 }
 
 test {
