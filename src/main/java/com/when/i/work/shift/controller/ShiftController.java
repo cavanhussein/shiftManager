@@ -26,9 +26,8 @@ public class ShiftController {
     }
 
     @PostMapping(path = "/api/shift", consumes = "application/json", produces = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addShift(@RequestBody Shift shift) {
-        shiftService.createShift(shift);
+    public Shift addShift(@RequestBody Shift shift) {
+        return shiftService.createShift(shift);
     }
 
     @DeleteMapping(path = "/api/shift{id}")

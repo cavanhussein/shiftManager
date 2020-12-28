@@ -20,30 +20,30 @@ public class ShiftService {
     private ShiftRepository repository;
 
     public List<Shift> getShifts() {
-        return this.repository.findAll();
+        return repository.findAll();
     }
 
     public Shift getShiftById(String id) {
-        return this.repository.findShiftById(id);
+        return repository.findShiftById(id);
     }
 
-    public void createShift(Shift shift) {
+    public Shift createShift(Shift shift) {
         validateStartEndTime(shift.getStartTime(), shift.getEndTime());
         ensureNoOverlappingShifts(shift.getUserId(), shift.getStartTime(), shift.getEndTime());
-        this.repository.save(shift);
+        return repository.save(shift);
     }
 
     public void deleteShift(String id) {
-        this.repository.deleteById(id);
+        repository.deleteById(id);
     }
 
     public Shift patchShift(ShiftUpdateDto shiftUpdate, String id) {
         validateStartEndTime(shiftUpdate.getStartTime(), shiftUpdate.getEndTime());
-        Shift shiftToUpdate = this.repository.findShiftById(id);
+        Shift shiftToUpdate = repository.findShiftById(id);
         ensureNoOverlappingShifts(shiftToUpdate.getUserId(), shiftUpdate.getStartTime(), shiftUpdate.getEndTime());
         shiftToUpdate.setStartTime(shiftUpdate.getStartTime());
         shiftToUpdate.setEndTime(shiftUpdate.getEndTime());
-        return this.repository.save(shiftToUpdate);
+        return repository.save(shiftToUpdate);
     }
 
     private void validateStartEndTime(Date startTime, Date endTime) {
@@ -54,7 +54,7 @@ public class ShiftService {
     }
 
     private void ensureNoOverlappingShifts(String userId, Date startTime, Date endTime) {
-        if (this.repository.findOverlappingShift(userId, startTime, endTime).size() > 0) {
+        if (repository.findOverlappingShift(userId, startTime, endTime).size() > 0) {
             throw new RuntimeException();
         }
     }
