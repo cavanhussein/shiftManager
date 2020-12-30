@@ -1,7 +1,6 @@
 package com.when.i.work.shift.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
-@JsonIgnoreProperties
 @Document(collection = "shift")
 public class Shift {
     @Id
