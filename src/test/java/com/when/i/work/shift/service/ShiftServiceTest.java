@@ -42,7 +42,6 @@ class ShiftServiceTest {
         List<Shift> shiftList = Collections.singletonList(generateShift(
                 "1111", "testUser", "2020-12-24T7:00:00-0600", "2020-12-24T8:00:00-0600"));
         Mockito.when(shiftRepository.findAll()).thenReturn(shiftList);
-        // TODO: Fix the startTime and endTime.
         List<Shift> getShiftsList = shiftService.getShifts(null, null);
         assertEquals(getShiftsList.size(), 1);
         assertEquals(getShiftsList.get(0).getId(), "1111");
@@ -56,7 +55,6 @@ class ShiftServiceTest {
                 generateShift("12345", "testUser2", "2020-12-24T8:00:00-0600", "2020-12-25T00:00:00-0600")
         );
         Mockito.when(shiftRepository.findAll()).thenReturn(shiftList);
-        // TODO: Fix the startTime and endTime.
         List<Shift> getShiftsList = shiftService.getShifts(null, null);
         assertEquals(getShiftsList.size(), 2);
     }
@@ -126,7 +124,9 @@ class ShiftServiceTest {
         Mockito.when(shiftRepository.findOverlappingShiftWithUserId(
                 shift.getUserId(), shift.getStartTime(), shift.getEndTime())).thenReturn(new LinkedList<>());
         Mockito.when(shiftRepository.save(any())).thenReturn(shift);
-        shiftService.patchShift(shiftUpdateDto, shiftId);
+        Shift updatedShift = shiftService.patchShift(shiftUpdateDto, shiftId);
+        assertEquals(updatedShift.getId(), shift.getId());
+        assertEquals(updatedShift.getUserId(), shift.getUserId());
     }
 
     @Test
@@ -142,6 +142,27 @@ class ShiftServiceTest {
         String stringEndTime = "2020-12-24T8:00:00-0600";
         String userId = "testUser";
         String shiftId = "12345";
+        String overlappingShiftId = "11111";
+        Shift shift = generateShift(
+                shiftId, userId, stringStartTime, stringEndTime);
+        Shift overlappingShift = generateShift(
+                overlappingShiftId, userId, stringStartTime, stringEndTime);
+        ShiftUpdateDto shiftUpdateDto = generateShiftUpdateDto(
+                stringStartTime, stringEndTime);
+        Mockito.when(shiftRepository.findShiftById(shiftId)).thenReturn(shift);
+        Mockito.when(shiftRepository.findOverlappingShiftWithUserId(
+                shift.getUserId(), shift.getStartTime(),
+                shift.getEndTime())).thenReturn(Collections.singletonList(overlappingShift));
+        assertThrows(ConflictingShiftException.class, () -> shiftService.patchShift(shiftUpdateDto, shiftId));
+    }
+
+    @Test
+    void patchShift_overlappingShiftWithSameId() throws ParseException {
+        // This should not throw an exception since the shift we are updating is the overlapping shift.
+        String stringStartTime = "2020-12-24T6:00:00-0600";
+        String stringEndTime = "2020-12-24T8:00:00-0600";
+        String userId = "testUser";
+        String shiftId = "12345";
         Shift shift = generateShift(
                 shiftId, userId, stringStartTime, stringEndTime);
         ShiftUpdateDto shiftUpdateDto = generateShiftUpdateDto(
@@ -150,7 +171,10 @@ class ShiftServiceTest {
         Mockito.when(shiftRepository.findOverlappingShiftWithUserId(
                 shift.getUserId(), shift.getStartTime(),
                 shift.getEndTime())).thenReturn(Collections.singletonList(shift));
-        assertThrows(ConflictingShiftException.class, () -> shiftService.patchShift(shiftUpdateDto, shiftId));
+        Mockito.when(shiftRepository.save(any())).thenReturn(shift);
+        Shift updatedShift = shiftService.patchShift(shiftUpdateDto, shiftId);
+        assertEquals(updatedShift.getId(), shift.getId());
+        assertEquals(updatedShift.getUserId(), shift.getUserId());
     }
 
     private Shift generateShift(String id, String userId, String stringStartTime, String stringEndTime) throws ParseException {

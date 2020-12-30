@@ -84,7 +84,8 @@ public class ShiftService {
         validateShiftUpdateFields(shiftUpdate);
         validateStartEndTimeBoundaries(shiftUpdate.getStartTime(), shiftUpdate.getEndTime());
         Shift shiftToUpdate = repository.findShiftById(id);
-        ensureNoOverlappingShifts(shiftToUpdate.getUserId(), shiftUpdate.getStartTime(), shiftUpdate.getEndTime());
+        ensureNoOverlappingShiftsForPatch(
+                id, shiftToUpdate.getUserId(), shiftUpdate.getStartTime(), shiftUpdate.getEndTime());
         if (shiftUpdate.getStartTime() != null) {
             shiftToUpdate.setStartTime(shiftUpdate.getStartTime());
         }
@@ -121,8 +122,8 @@ public class ShiftService {
      * @param endTime
      */
     private void validateStartEndTimeBoundaries(Date startTime, Date endTime) {
-        if (startTime.getTime() > endTime.getTime()) {
-            throw new BadRequestException("startTime is greater than endTime.");
+        if (startTime.getTime() >= endTime.getTime()) {
+            throw new BadRequestException("startTime is greater than or equal to endTime.");
         }
     }
 
@@ -134,6 +135,22 @@ public class ShiftService {
      */
     private void ensureNoOverlappingShifts(String userId, Date startTime, Date endTime) {
         if (repository.findOverlappingShiftWithUserId(userId, startTime, endTime).size() > 0) {
+            throw new ConflictingShiftException(startTime, endTime);
+        }
+    }
+
+    /**
+     * Determine if there are existing shifts excluding shift with shiftId
+     * for the given user that conflict the given startTime and endTime.
+     * @param shiftId
+     * @param userId
+     * @param startTime
+     * @param endTime
+     */
+    private void ensureNoOverlappingShiftsForPatch(String shiftId, String userId, Date startTime, Date endTime) {
+        List<Shift> overlappingShifts = repository.findOverlappingShiftWithUserId(userId, startTime, endTime);
+        if ((overlappingShifts.size() == 1 && !overlappingShifts.get(0).getId().equals(shiftId))
+            || overlappingShifts.size() > 1) {
             throw new ConflictingShiftException(startTime, endTime);
         }
     }
