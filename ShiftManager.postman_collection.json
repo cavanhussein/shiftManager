@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "c403d9aa-b671-4f9c-8843-0488956b17b6",
+		"name": "ShiftManager",
+		"description": "Including are the following APIs for our shift manager.\r\n1. GET all shifts\r\n2. GET shift by ID\r\n3. POST shift\r\n4. PATCH shift\r\n5. DELETE shift by ID",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET all shifts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/shift",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"shift"
+					],
+					"query": [
+						{
+							"key": "startTime",
+							"value": "2020-12-23@10:00:00",
+							"disabled": true
+						},
+						{
+							"key": "endTime",
+							"value": "2020-12-29@15:00:00",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST shift",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"testUser\",\r\n    \"startTime\": \"2020-12-24T17:00:00+0600\",\r\n    \"endTime\": \"2020-12-24T19:00:00+0600\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/shift",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"shift"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET shift by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/shift/1111",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"shift",
+						"1111"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH shift",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"startTime\": \"2020-12-24T7:00:00+0000\",\r\n    \"endTime\": \"2020-12-24T8:00:00+0000\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/shift/55556",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"shift",
+						"55556"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE shift by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/shift/2222",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"shift",
+						"2222"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
