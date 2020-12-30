@@ -7,11 +7,13 @@ import java.util.Date;
 
 public class ShiftUpdateDto {
     @NotEmpty(message = "startTime cannot be empty or null")
-    @JsonFormat(pattern="yyyy-MM-dd@HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssZ")
     private Date startTime;
-    @NotEmpty(message = "startTime cannot be empty or null")
-    @JsonFormat(pattern="yyyy-MM-dd@HH:mm:ss")
+    @NotEmpty(message = "endTime cannot be empty or null")
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssZ")
     private Date endTime;
+
+    public ShiftUpdateDto() {}
 
     public ShiftUpdateDto(Date startTime, Date endTime) {
         this.startTime = startTime;
@@ -24,5 +26,13 @@ public class ShiftUpdateDto {
 
     public Date getEndTime() {
         return endTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

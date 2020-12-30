@@ -1,6 +1,8 @@
 package com.when.i.work.shift.repository;
 
 import com.when.i.work.shift.dto.Shift;
+
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,8 +13,6 @@ import java.util.List;
 public interface ShiftRepository extends MongoRepository<Shift, String> {
     Shift findShiftById(@Param("id") String id);
 
-    List<Shift> findAllByUserId(@Param("userId") String userId);
-
     @Query("{ $and: ["
             + "{ 'userId': ?0 },"
             + "{$or: ["
@@ -20,6 +20,8 @@ public interface ShiftRepository extends MongoRepository<Shift, String> {
             + "{ $and: [{ 'startTime': { $lt: ?2 } }, { 'endTime': { $gt: ?2 } } ]}"
             + "]}"
             + "]}")
-    List<Shift> findOverlappingShift(String userId, Date startTime, Date endTime);
+    List<Shift> findOverlappingShiftWithUserId(String userId, Date startTime, Date endTime);
 
+    @Query(value = "{ $and: [{ 'startTime': { $gt: ?0 } }, { 'endTime': { $lt: ?1 } } ]}")
+    List<Shift> findOverlappingShifts(Date startTime, Date endTime, Sort sort);
 }
