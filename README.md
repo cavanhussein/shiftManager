@@ -14,7 +14,7 @@ Once the gradle process succeeds you will find the Shift Manager's jar file in: 
 
 Now you should be able to run the jar file using the following command from the root of the repository:
 ```
- $JAVA_HOME\java -D jdk.tls.client.protocols=TLSv1.2 -D spring.config.location=src\main\resources\application.properties -jar .\build\libs\shift-0.0.1-SNAPSHOT.jar
+ $JAVA_HOME/java -Djdk.tls.client.protocols=TLSv1.2 -Dspring.config.location=src/main/resources/application.properties -jar ./build/libs/shift-0.0.1-SNAPSHOT.jar
 ```
 Note, $JAVA_HOME will resolve to something like this: `C:\Program Files\Java\jdk-13.0.2\bin\`
 Also note, that this project is currently connected to a remote MongoDB.
