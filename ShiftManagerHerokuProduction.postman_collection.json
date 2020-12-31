@@ -1,0 +1,138 @@
+{
+	"info": {
+		"_postman_id": "aeb02248-ebdc-4eab-8ba5-15c1767da1de",
+		"name": "ShiftManagerHeroku",
+		"description": "Including are the following APIs for our shift manager. These requests are sent to a deployed heroku app.\r\n\r\n1. GET all shifts\r\n2. GET shift by ID\r\n3. POST shift\r\n4. PATCH shift\r\n5. DELETE shift by ID",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET all shifts Heroku",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://cavanhusseinshiftmanager.herokuapp.com/api/shift",
+					"protocol": "https",
+					"host": [
+						"cavanhusseinshiftmanager",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"shift"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST shift Heroku",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"testUser\",\r\n    \"startTime\": \"2020-12-24T17:00:00+0600\",\r\n    \"endTime\": \"2020-12-24T19:00:00+0600\"\r\n}"
+				},
+				"url": {
+					"raw": "https://cavanhusseinshiftmanager.herokuapp.com/api/shift",
+					"protocol": "https",
+					"host": [
+						"cavanhusseinshiftmanager",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"shift"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE shift by ID Heroku",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://cavanhusseinshiftmanager.herokuapp.com/api/shift/2222",
+					"protocol": "https",
+					"host": [
+						"cavanhusseinshiftmanager",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"shift",
+						"2222"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET shift by ID Heroku",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://cavanhusseinshiftmanager.herokuapp.com/api/shift/1111",
+					"protocol": "https",
+					"host": [
+						"cavanhusseinshiftmanager",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"shift",
+						"1111"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH shift Heroku",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"startTime\": \"2020-12-24T7:00:00+0000\",\r\n    \"endTime\": \"2020-12-24T8:00:00+0000\"\r\n}"
+				},
+				"url": {
+					"raw": "https://cavanhusseinshiftmanager.herokuapp.com/api/shift/55556",
+					"protocol": "https",
+					"host": [
+						"cavanhusseinshiftmanager",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"shift",
+						"55556"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
